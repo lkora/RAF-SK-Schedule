@@ -1,5 +1,6 @@
 package schedule;
 
+import lombok.Getter;
 import schedule.lecture.Lecture;
 import schedule.manager.ScheduleManager;
 
@@ -17,6 +18,7 @@ public class Schedule {
     /**
      * A list of lectures in the schedule.
      */
+    @Getter
     private List<Lecture> lectureList = new ArrayList<>();
 
     /**
@@ -53,12 +55,4 @@ public class Schedule {
         manager.writeSchedule(lectureList, path);
     }
 
-    /**
-     * Returns the list of lectures in the schedule.
-     *
-     * @return A list of lectures.
-     */
-    public List<Lecture> getLectureList() {
-        return lectureList;
-    }
 }

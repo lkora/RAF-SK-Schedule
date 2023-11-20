@@ -38,7 +38,7 @@ public class ClassroomMapper {
 
 	public static class ClassroomDeserializer extends JsonDeserializer<Classroom> {
 		@Override
-		public Classroom deserialize(JsonParser p, DeserializationContext context) throws IOException, JacksonException {
+		public Classroom deserialize(JsonParser p, DeserializationContext context) throws IOException {
 			JsonNode node = p.getCodec().readTree(p);
 			String name = node.get("classroom").asText();
 			boolean projector = node.get("projector").asBoolean();
