@@ -17,7 +17,7 @@ public class LectureSerializer extends JsonSerializer<Lecture> {
         JsonGen.writeStringField("Grupe", String.join(",", lecture.getGroups()));
         JsonGen.writeStringField("Dan", lecture.getDay().toString());
         JsonGen.writeStringField("Termin", lecture.getStart().toString() + "-" + lecture.getEnd().toString());
-        JsonGen.writeStringField("Učionica", lecture.getClassroom());
+        JsonGen.writeStringField("Učionica", lecture.getClassroom().getName());
         JsonGen.writeEndObject();
     }
 }

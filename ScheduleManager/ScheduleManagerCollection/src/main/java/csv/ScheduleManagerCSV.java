@@ -4,137 +4,154 @@ import csv.mappers.ConfigMapping;
 import csv.mappers.DayMapper;
 import csv.mappers.LectureTypeMapper;
 import csv.mappers.TimePeriodMapper;
+import json.mappers.ClassroomMapper;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
+import schedule.classroom.Classroom;
 import schedule.lecture.Lecture;
 import schedule.lecture.type.LectureType;
 import schedule.manager.service.ScheduleManagerService;
 
 import java.io.*;
 import java.util.*;
+import java.util.regex.Pattern;
 
+@SuppressWarnings("DuplicatedCode")
 public class ScheduleManagerCSV implements ScheduleManagerService {
 
-    @Override
-    public List<Lecture> loadData(String filePath, String configPath) throws IOException {
-	    return loadLecturesFromCSV(filePath, configPath);
-    }
+	public ScheduleManagerCSV() {
+		initializeClassrooms();
+	}
+	private static List<ConfigMapping> readConfig(String filePath) throws FileNotFoundException {
+		List<ConfigMapping> mappings = new ArrayList<>();
 
-    @Override
-    public boolean exportData(List<Lecture> lectures, String path) throws IOException {
-        return writeDataToCSV(lectures, path);
-    }
+		File file = new File(filePath);
+		Scanner scanner = new Scanner(file);
 
-    private List<Lecture> loadLecturesFromCSV(String filePath, String configPath) throws IOException {
-        List<Lecture> lectures = new ArrayList<>();
+		while (scanner.hasNextLine()) {
+			String line = scanner.nextLine();
+			String[] splitLine = line.split(" ", 3);
 
-        List<ConfigMapping> columnMappings = readConfig(configPath);
-        Map<Integer, String> mappings = new HashMap<>();
-        for (ConfigMapping configMapping : columnMappings) {
-            mappings.put(configMapping.getIndex(), configMapping.getOriginal());
-        }
+			mappings.add(new ConfigMapping(Integer.valueOf(splitLine[0]), splitLine[1], splitLine[2]));
+		}
 
-        FileReader fileReader = new FileReader(filePath);
-        CSVParser parser = CSVFormat.Builder.create(CSVFormat.DEFAULT)
-                .setHeader()
-                .setSkipHeaderRecord(true)
-                .build()
-                .parse(fileReader);
+		scanner.close();
 
-        for (CSVRecord record : parser) {
-            Lecture lecture = new Lecture();
-            for (ConfigMapping entry : columnMappings) {
-	            mapColumnValue(lecture, entry, record, mappings);
-            }
-            lectures.add(lecture);
-        }
+		return mappings;
+	}
 
-        return lectures;
-    }
+	@Override
+	public List<Lecture> loadData(String filePath, String configPath) throws IOException {
+		return loadLecturesFromCSV(filePath, configPath);
+	}
 
-    @SuppressWarnings("unused")
-    private Lecture mapColumnValue(Lecture lecture, ConfigMapping entry, CSVRecord record, Map<Integer, String> mappings) {
-        int columnIndex = entry.getIndex();
+	@Override
+	public boolean exportData(List<Lecture> lectures, String path) throws IOException {
+		return writeDataToCSV(lectures, path);
+	}
 
-        switch (mappings.get(columnIndex)) {
-            case "name" -> lecture.setName(record.get(columnIndex));
-            case "type" -> {
-                String typeString = record.get(columnIndex);
-                LectureType lectureType = LectureTypeMapper.mapToLectureType(typeString);
-                lecture.setType(lectureType);
-            }
-            case "professor" -> lecture.setProfessor(record.get(columnIndex));
-            case "groups" -> {
-                String groupsString = record.get(columnIndex);
-                Set<String> groups = new HashSet<>(Arrays.asList(groupsString.split("\\s*,\\s*")));
-                lecture.setGroups(groups);
-            }
-            case "day" -> {
-                String dayAbbreviation = record.get(columnIndex).trim();
-                lecture.setDay(DayMapper.mapToDayOfWeek(dayAbbreviation.replaceAll("[\\s ]*", "").trim()));
-            }
-            case "timeRange" -> {
-                String timeRangeString = record.get(columnIndex);
-                TimePeriodMapper.TimeRange timeRange = TimePeriodMapper.parseTimeString(timeRangeString);
-                lecture.setStart(timeRange.getStartTime());
-                lecture.setEnd(timeRange.getEndTime());
-            }
-            case "classroom" -> lecture.setClassroom(record.get(columnIndex));
-        }
+	private List<Lecture> loadLecturesFromCSV(String filePath, String configPath) throws IOException {
+		List<Lecture> lectures = new ArrayList<>();
 
-        return lecture;
-    }
+		List<ConfigMapping> columnMappings = readConfig(configPath);
+		Map<Integer, String> mappings = new HashMap<>();
+		for (ConfigMapping configMapping : columnMappings) {
+			mappings.put(configMapping.getIndex(), configMapping.getOriginal());
+		}
 
+		FileReader fileReader = new FileReader(filePath);
+		CSVParser parser = CSVFormat.Builder.create(CSVFormat.DEFAULT)
+				.setHeader()
+				.setSkipHeaderRecord(true)
+				.build()
+				.parse(fileReader);
 
-    private static List<ConfigMapping> readConfig(String filePath) throws FileNotFoundException{
-        List<ConfigMapping> mappings = new ArrayList<>();
+		for (CSVRecord record : parser) {
+			Lecture lecture = new Lecture();
+			for (ConfigMapping entry : columnMappings) {
+				mapColumnValue(lecture, entry, record, mappings);
+			}
+			lectures.add(lecture);
+		}
 
-        File file = new File(filePath);
-        Scanner scanner = new Scanner(file);
+		return lectures;
+	}
 
-        while (scanner.hasNextLine()) {
-            String line = scanner.nextLine();
-            String[] splitLine = line.split(" ", 3);
+	@SuppressWarnings("unused")
+	private Lecture mapColumnValue(Lecture lecture, ConfigMapping entry, CSVRecord record, Map<Integer, String> mappings) {
+		int columnIndex = entry.getIndex();
 
-            mappings.add(new ConfigMapping(Integer.valueOf(splitLine[0]), splitLine[1], splitLine[2]));
-        }
+		switch (mappings.get(columnIndex)) {
+			case "name" -> lecture.setName(record.get(columnIndex));
+			case "type" -> {
+				String typeString = record.get(columnIndex);
+				LectureType lectureType = LectureTypeMapper.mapToLectureType(typeString);
+				lecture.setType(lectureType);
+			}
+			case "professor" -> lecture.setProfessor(record.get(columnIndex));
+			case "groups" -> {
+				String groupsString = record.get(columnIndex);
+				Set<String> groups = new HashSet<>(Arrays.asList(groupsString.split("\\s*,\\s*")));
+				lecture.setGroups(groups);
+			}
+			case "day" -> {
+				String dayAbbreviation = record.get(columnIndex).trim();
+				lecture.setDay(DayMapper.mapToDayOfWeek(dayAbbreviation.replaceAll("[\\s ]*", "").trim()));
+			}
+			case "timeRange" -> {
+				String timeRangeString = record.get(columnIndex);
+				TimePeriodMapper.TimeRange timeRange = TimePeriodMapper.parseTimeString(timeRangeString);
+				lecture.setStart(timeRange.getStartTime());
+				lecture.setEnd(timeRange.getEndTime());
+			}
+			case "classroom" -> lecture.setClassroom(Classroom.forName(record.get(columnIndex)).orElse(null));
+		}
 
-        scanner.close();
+		return lecture;
+	}
 
-        return mappings;
-    }
+	private boolean writeDataToCSV(List<Lecture> lectures, String path) throws IOException {
+		FileWriter fileWriter = new FileWriter(path);
+		CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.Builder.create().setHeader(
+				"name",
+				"type",
+				"professor",
+				"groups",
+				"day",
+				"timeRange",
+				"classroom"
+		).build());
 
-    private boolean writeDataToCSV(List<Lecture> lectures, String path) throws IOException {
-        FileWriter fileWriter = new FileWriter(path);
-        CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.Builder.create().setHeader(
-                "name",
-                "type",
-                "professor",
-                "groups",
-                "day",
-                "timeRange",
-                "classroom"
-        ).build());
+		for (Lecture lecture : lectures) {
+			String timeRange = TimePeriodMapper.formatTimeRange(new TimePeriodMapper.TimeRange(lecture.getStart(), lecture.getEnd()));
+			csvPrinter.printRecord(
+					lecture.getName(),
+					LectureTypeMapper.lectureTypeToString(lecture.getType()),
+					lecture.getProfessor(),
+					String.join(", ", lecture.getGroups()),
+					DayMapper.mapToAbbreviation(lecture.getDay()),
+					timeRange,
+					lecture.getClassroom().getName()
+			);
+		}
 
-        for (Lecture lecture : lectures) {
-            String timeRange = TimePeriodMapper.formatTimeRange(new TimePeriodMapper.TimeRange(lecture.getStart(), lecture.getEnd()));
-            csvPrinter.printRecord(
-                    lecture.getName(),
-                    LectureTypeMapper.lectureTypeToString(lecture.getType()),
-                    lecture.getProfessor(),
-                    String.join(", ", lecture.getGroups()),
-                    DayMapper.mapToAbbreviation(lecture.getDay()),
-                    timeRange,
-                    lecture.getClassroom()
-            );
-        }
+		csvPrinter.close();
+		fileWriter.close();
 
-        csvPrinter.close();
-        fileWriter.close();
+		return true;
+	}
 
-        return true;
-    }
-
+	@Override
+	public void initializeClassrooms() {
+		List<Classroom> classrooms;
+		try {
+			var mapper = new ClassroomMapper();
+			classrooms = new ArrayList<>(mapper.getClassrooms("Schedule/src/main/resources/classrooms.json"));
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		Classroom.initialize(classrooms);
+	}
 }

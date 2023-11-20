@@ -1,7 +1,7 @@
 package schedule;
 
-import schedule.manager.ScheduleManager;
 import schedule.lecture.Lecture;
+import schedule.manager.ScheduleManager;
 
 import java.util.ArrayList;
 import java.util.List;

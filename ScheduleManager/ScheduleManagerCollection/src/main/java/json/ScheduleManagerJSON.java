@@ -5,17 +5,21 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import json.mappers.ClassroomMapper;
 import json.mappers.LectureDeserializer;
 import json.mappers.LectureSerializer;
+import schedule.classroom.Classroom;
 import schedule.lecture.Lecture;
 import schedule.manager.service.ScheduleManagerService;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 
+@SuppressWarnings("DuplicatedCode")
 public class ScheduleManagerJSON implements ScheduleManagerService {
 
     private final ObjectMapper objectMapper;
@@ -25,10 +29,12 @@ public class ScheduleManagerJSON implements ScheduleManagerService {
 
         SimpleModule module = new SimpleModule();
         module.addDeserializer(Lecture.class, new LectureDeserializer());
+        module.addDeserializer(Classroom.class, new ClassroomMapper.ClassroomDeserializer());
         module.addSerializer(Lecture.class, new LectureSerializer());
 
         objectMapper.registerModule(module);
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+        initializeClassrooms();
     }
 
     @Override
@@ -61,4 +67,15 @@ public class ScheduleManagerJSON implements ScheduleManagerService {
         return true;
     }
 
+    @Override
+    public void initializeClassrooms() {
+        List<Classroom> classrooms;
+        try {
+            var mapper = new ClassroomMapper();
+            classrooms = new ArrayList<>(mapper.getClassrooms("Schedule/src/main/resources/classrooms.json"));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        Classroom.initialize(classrooms);
+    }
 }
