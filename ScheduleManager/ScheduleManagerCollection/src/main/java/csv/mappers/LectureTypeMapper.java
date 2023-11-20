@@ -30,13 +30,10 @@ public class LectureTypeMapper {
      *         - "D" for OTHER (default).
      */
     public static String lectureTypeToString(LectureType lectureType) {
-        switch (lectureType) {
-            case SEMINAR:
-                return "V";
-            case LECTURE:
-                return "P";
-            default:
-                return "D";
-        }
+	    return switch (lectureType) {
+		    case SEMINAR -> "V";
+		    case LECTURE -> "P";
+		    default -> "D";
+	    };
     }
 }

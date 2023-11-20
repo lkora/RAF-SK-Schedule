@@ -19,14 +19,12 @@ public class ScheduleManagerCSV implements ScheduleManagerService {
 
     @Override
     public List<Lecture> loadData(String filePath, String configPath) throws IOException {
-        List<Lecture> lectures = loadLecturesFromCSV(filePath, configPath);
-        return lectures;
+	    return loadLecturesFromCSV(filePath, configPath);
     }
 
     @Override
     public boolean exportData(List<Lecture> lectures, String path) throws IOException {
-        writeDataToCSV(lectures, path);
-        return true;
+        return writeDataToCSV(lectures, path);
     }
 
     private List<Lecture> loadLecturesFromCSV(String filePath, String configPath) throws IOException {
@@ -39,12 +37,16 @@ public class ScheduleManagerCSV implements ScheduleManagerService {
         }
 
         FileReader fileReader = new FileReader(filePath);
-        CSVParser parser = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(fileReader);
+        CSVParser parser = CSVFormat.Builder.create(CSVFormat.DEFAULT)
+                .setHeader()
+                .setSkipHeaderRecord(true)
+                .build()
+                .parse(fileReader);
 
         for (CSVRecord record : parser) {
             Lecture lecture = new Lecture();
             for (ConfigMapping entry : columnMappings) {
-                lecture = mapColumnValue(lecture, entry, record, mappings);
+	            mapColumnValue(lecture, entry, record, mappings);
             }
             lectures.add(lecture);
         }
@@ -52,7 +54,7 @@ public class ScheduleManagerCSV implements ScheduleManagerService {
         return lectures;
     }
 
-
+    @SuppressWarnings("unused")
     private Lecture mapColumnValue(Lecture lecture, ConfigMapping entry, CSVRecord record, Map<Integer, String> mappings) {
         int columnIndex = entry.getIndex();
 
@@ -106,8 +108,15 @@ public class ScheduleManagerCSV implements ScheduleManagerService {
 
     private boolean writeDataToCSV(List<Lecture> lectures, String path) throws IOException {
         FileWriter fileWriter = new FileWriter(path);
-        CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT
-                .withHeader("Predmet", "Tip", "Nastavnik", "Grupe", "Dan", "Termin", "Učionica", "Dodatno"));
+        CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.Builder.create().setHeader(
+                "name",
+                "type",
+                "professor",
+                "groups",
+                "day",
+                "timeRange",
+                "classroom"
+        ).build());
 
         for (Lecture lecture : lectures) {
             String timeRange = TimePeriodMapper.formatTimeRange(new TimePeriodMapper.TimeRange(lecture.getStart(), lecture.getEnd()));

@@ -9,16 +9,16 @@ import java.io.IOException;
 
 public class LectureSerializer extends JsonSerializer<Lecture> {
     @Override
-    public void serialize(Lecture lecture, JsonGenerator jgen, SerializerProvider provider) throws IOException {
-        jgen.writeStartObject();
-        jgen.writeStringField("Predmet", lecture.getName());
-        jgen.writeStringField("Tip", lecture.getType().toString());
-        jgen.writeStringField("Nastavnik", lecture.getProfessor());
-        jgen.writeStringField("Grupe", String.join(",", lecture.getGroups()));
-        jgen.writeStringField("Dan", lecture.getDay().toString());
-        jgen.writeStringField("Termin", lecture.getStart().toString() + "-" + lecture.getEnd().toString());
-        jgen.writeStringField("Učionica", lecture.getClassroom());
-        jgen.writeEndObject();
+    public void serialize(Lecture lecture, JsonGenerator JsonGen, SerializerProvider provider) throws IOException {
+        JsonGen.writeStartObject();
+        JsonGen.writeStringField("Predmet", lecture.getName());
+        JsonGen.writeStringField("Tip", lecture.getType().toString());
+        JsonGen.writeStringField("Nastavnik", lecture.getProfessor());
+        JsonGen.writeStringField("Grupe", String.join(",", lecture.getGroups()));
+        JsonGen.writeStringField("Dan", lecture.getDay().toString());
+        JsonGen.writeStringField("Termin", lecture.getStart().toString() + "-" + lecture.getEnd().toString());
+        JsonGen.writeStringField("Učionica", lecture.getClassroom());
+        JsonGen.writeEndObject();
     }
 }
 

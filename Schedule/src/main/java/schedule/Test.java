@@ -18,7 +18,6 @@ public class Test {
             schedule.exportSchedule("Schedule/src/main/resources/collection/csv/schedule_export.csv");
         } catch (Exception e) {
             System.out.println("Something wrong happened!" + e.getLocalizedMessage());
-            e.printStackTrace();
         }
     }
 }
