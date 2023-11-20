@@ -16,7 +16,6 @@ import schedule.manager.service.ScheduleManagerService;
 
 import java.io.*;
 import java.util.*;
-import java.util.regex.Pattern;
 
 @SuppressWarnings("DuplicatedCode")
 public class ScheduleManagerCSV implements ScheduleManagerService {
