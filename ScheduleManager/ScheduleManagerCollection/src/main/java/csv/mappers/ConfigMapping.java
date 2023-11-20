@@ -1,3 +1,4 @@
+
 package csv.mappers;
 
 public class ConfigMapping {

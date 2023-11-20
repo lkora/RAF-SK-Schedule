@@ -6,6 +6,7 @@ import schedule.lecture.Lecture;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +21,7 @@ public class ScheduleManager {
         if (!file.exists()) { throw new FileNotFoundException(); }
 
         Optional<String> fileTypeExtension = getExtensionByStringHandling(file.getName());
-        if (!fileTypeExtension.isPresent()) {
+        if (fileTypeExtension.isPresent()) {
             FileType fileType = getSupportedFileType(fileTypeExtension.get());
             switch (fileType) {
                 case CSV -> {
@@ -34,13 +35,16 @@ public class ScheduleManager {
 
         return new ArrayList<>();
     }
-
     public void writeSchedule(List<Lecture> lectures, String path) throws Exception {
         File file = new File(path);
-        if (!file.exists()) { file.createNewFile(); }
+        if (!file.exists()) {
+            if (!file.createNewFile()) {
+                throw new IOException("Could not create file");
+            }
+        }
 
         Optional<String> fileTypeExtension = getExtensionByStringHandling(file.getName());
-        if (!fileTypeExtension.isPresent()) {
+        if (fileTypeExtension.isPresent()) {
             FileType fileType = getSupportedFileType(fileTypeExtension.get());
             switch (fileType) {
                 case CSV -> new ScheduleManagerCSV().exportData(lectures, path);
@@ -60,7 +64,7 @@ public class ScheduleManager {
         switch(fileType.toLowerCase()) {
             case "csv" -> { return FileType.CSV; }
             case "json" -> { return FileType.JSON; }
-            default -> { throw new FileTypeNotSupportedException("File Type is not supported. File needs to end in either .csv or .json"); }
+            default -> throw new FileTypeNotSupportedException("File Type is not supported. File needs to end in either .csv or .json");
         }
     }
 

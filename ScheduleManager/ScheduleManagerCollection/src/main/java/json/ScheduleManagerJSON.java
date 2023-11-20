@@ -18,7 +18,7 @@ import java.util.List;
 
 public class ScheduleManagerJSON implements ScheduleManagerService {
 
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
     public ScheduleManagerJSON() {
         objectMapper = new ObjectMapper();
@@ -34,16 +34,24 @@ public class ScheduleManagerJSON implements ScheduleManagerService {
     @Override
     public List<Lecture> loadData(String path, String configPath) throws IOException {
         File file = new File(path);
-        if (!file.exists()) { file.createNewFile(); }
+        if (!file.exists()) {
+            if (file.createNewFile()) {
+                throw new IOException("File not found");
+            }
+        }
 
-        List<Lecture> lectures = objectMapper.readValue(file, new TypeReference<List<Lecture>>() {});
-        return lectures;
+	    return objectMapper.readValue(file, new TypeReference<>() {
+	    });
     }
 
     @Override
     public boolean exportData(List<Lecture> lectures, String path) throws IOException {
         File file = new File(path);
-        if (!file.exists()) { file.createNewFile(); }
+        if (!file.exists()) {
+            if (file.createNewFile()) {
+                throw new IOException("File not found");
+            }
+        }
 
         FileWriter writer = new FileWriter(file);
         String json = objectMapper.writeValueAsString(lectures);

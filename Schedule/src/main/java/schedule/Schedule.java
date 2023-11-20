@@ -22,7 +22,7 @@ public class Schedule {
     /**
      * The manager responsible for loading and writing the schedule.
      */
-    private ScheduleManager manager;
+    private final ScheduleManager manager;
 
     /**
      * Constructor for the Schedule class.

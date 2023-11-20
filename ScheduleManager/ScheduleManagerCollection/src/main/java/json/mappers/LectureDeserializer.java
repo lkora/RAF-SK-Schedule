@@ -15,7 +15,7 @@ import java.util.HashSet;
 
 public class LectureDeserializer extends JsonDeserializer<Lecture> {
     @Override
-    public Lecture deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
+    public Lecture deserialize(JsonParser jp, DeserializationContext context) throws IOException {
         JsonNode node = jp.getCodec().readTree(jp);
         Lecture lecture = new Lecture();
 
