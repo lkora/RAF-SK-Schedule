@@ -15,28 +15,26 @@ import java.util.Optional;
  * Value-based (equals and hashCode are generated for the fields, and don't use reference equality).
  */
 @Getter
-@Setter
-@NoArgsConstructor
 public final class Classroom {
 
 
 	/**
 	 * The name of the classroom.
 	 */
-	private String name;
+	private final String name;
 
 	/**
 	 * Whether the classroom has a projector.
 	 */
-	private boolean projector;
+	private final boolean projector;
 	/**
 	 * The number of seats in the classroom.
 	 */
-	private Integer noSpaces;
+	private final Integer noSpaces;
 	/**
 	 * The number of computers in the classroom.
 	 */
-	private Integer noComputers;
+	private final Integer noComputers;
 
 	/**
 	 * @param name        the name of the classroom
@@ -50,18 +48,6 @@ public final class Classroom {
 		this.noSpaces = noSpaces;
 		this.noComputers = noComputers;
 	}
-
-	/**
-	 * Initializes the list of classrooms.
-	 * Only the first call to this method has an effect.
-	 * Others will instantly return.
-	 *
-	 * @param classrooms the list of classrooms
-	 */
-	public static void initialize(List<Classroom> classrooms) {
-		Holder.init(classrooms);
-	}
-
 	/**
 	 * Finds a classroom from a name.
 	 *
@@ -69,7 +55,7 @@ public final class Classroom {
 	 * @return If exists, returns the classroom with the given name, otherwise returns empty optional
 	 */
 	public static Optional<Classroom> forName(String name) {
-		return Holder.classrooms.stream().filter(c -> c.getName().equals(name)).findFirst();
+		return ClassroomRegistry.forName(name);
 	}
 
 	/**
@@ -107,20 +93,5 @@ public final class Classroom {
 				"noSpaces=" + noSpaces + ", " +
 				"noComputers=" + noComputers + ']';
 	}
-
-	private static class Holder {
-		@Getter
-		private static final List<Classroom> classrooms = new ArrayList<>();
-		private static boolean init = false;
-
-		static void init(List<Classroom> rooms) {
-			if (init) {
-				return;
-			}
-			classrooms.addAll(rooms);
-			init = true;
-		}
-	}
-
 }
 

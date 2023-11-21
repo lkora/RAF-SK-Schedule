@@ -6,6 +6,7 @@ import schedule.lecture.type.LectureType;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -51,6 +52,21 @@ public class Lecture {
 
     private Classroom classroom;
 
+    /**
+     * Wither method for the 'start' and 'end' fields.
+     */
+    public Lecture withTimes(LocalTime start, LocalTime end) {
+        return new Lecture(
+                this.subject,
+                this.type,
+                this.professor,
+                new HashSet<>(this.groups), // create a new set from existing to maintain immutability
+                this.day,
+                start,
+                end,
+                this.classroom
+        );
+    }
 
 	/**
      * Checks if two Lecture objects are equal.

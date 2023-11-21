@@ -9,6 +9,7 @@ import json.mappers.ClassroomMapper;
 import json.mappers.LectureDeserializer;
 import json.mappers.LectureSerializer;
 import schedule.classroom.Classroom;
+import schedule.classroom.ClassroomRegistry;
 import schedule.lecture.Lecture;
 import schedule.manager.service.ScheduleManagerService;
 
@@ -76,6 +77,6 @@ public class ScheduleManagerJSON implements ScheduleManagerService {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        Classroom.initialize(classrooms);
+        ClassroomRegistry.initialize(classrooms);
     }
 }

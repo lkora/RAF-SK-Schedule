@@ -10,6 +10,7 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
 import schedule.classroom.Classroom;
+import schedule.classroom.ClassroomRegistry;
 import schedule.lecture.Lecture;
 import schedule.lecture.type.LectureType;
 import schedule.manager.service.ScheduleManagerService;
@@ -150,6 +151,6 @@ public class ScheduleManagerCSV implements ScheduleManagerService {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-		Classroom.initialize(classrooms);
+		ClassroomRegistry.initialize(classrooms);
 	}
 }
