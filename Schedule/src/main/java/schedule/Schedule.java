@@ -7,6 +7,8 @@ import schedule.manager.ScheduleManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiPredicate;
+import java.util.function.Predicate;
 
 // TODO: Load exceptions
 // TODO: Add sorting functionalities
@@ -29,8 +31,6 @@ public class Schedule {
 	 */
 	@Getter
 	private List<Lecture> lectureList = new ArrayList<>();
-
-
 	/**
 	 * Constructor for the Schedule class.
 	 * Initializes the ScheduleManager.
@@ -90,6 +90,4 @@ public class Schedule {
 	public void sort() {
 		manager.sort(lectureList);
 	}
-
-
 }

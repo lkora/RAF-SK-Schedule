@@ -48,6 +48,7 @@ public class Lecture {
     /**
      * The classroom where the lecture is held.
      */
+
     private Classroom classroom;
 
 
