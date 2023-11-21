@@ -31,8 +31,6 @@ public class Schedule {
 	 */
 	@Getter
 	private List<Lecture> lectureList = new ArrayList<>();
-
-
 	/**
 	 * Constructor for the Schedule class.
 	 * Initializes the ScheduleManager.
@@ -62,14 +60,34 @@ public class Schedule {
 		manager.writeSchedule(lectureList, path);
 	}
 
+	/**
+	 * @param filter The filter to add.
+	 */
 	public void addFilter(Filter filter) {
 		filters.add(filter);
 	}
 
+	/**
+	 * @param filter The filter to remove.
+	 */
 	public void removeFilter(Filter filter) {
 		filters.remove(filter);
 	}
+	public void clearFilters() {
+		filters.clear();
+	}
+
+	/**
+	 * @return A list of lectures filtered by the current filters.
+	 */
 	public List<Lecture> filtered() {
 		return lectureList.stream().filter(filters.stream().reduce(Filter::and).orElse(x -> true)).toList();
+	}
+
+	/**
+	 * Sorts the lectures in the schedule.
+	 */
+	public void sort() {
+		manager.sort(lectureList);
 	}
 }

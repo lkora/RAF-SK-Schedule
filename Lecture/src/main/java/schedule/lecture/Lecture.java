@@ -17,13 +17,38 @@ import java.util.Set;
 @Setter
 @Getter
 public class Lecture {
-    private String name;
+    /**
+     * The lecture subject.
+     */
+    private String subject;
+    /**
+     * The lecture type.
+     */
     private LectureType type;
+    /**
+     * The professor that holds the lecture.
+     */
     private String professor;
+    /**
+     * The groups that attend the lecture.
+     */
     private Set<String> groups;
+    /**
+     * The day of the week when the lecture is held.
+     */
     private DayOfWeek day;
+    /**
+     * The start time of the lecture.
+     */
     private LocalTime start;
+    /**
+     * The end time of the lecture.
+     */
     private LocalTime end;
+    /**
+     * The classroom where the lecture is held.
+     */
+
     private Classroom classroom;
 
 
@@ -38,7 +63,7 @@ public class Lecture {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Lecture that = (Lecture) o;
-        return Objects.equals(name, that.name) &&
+        return Objects.equals(subject, that.subject) &&
                 Objects.equals(type, that.type) &&
                 Objects.equals(professor, that.professor) &&
                 Objects.equals(day, that.day) &&
@@ -54,7 +79,7 @@ public class Lecture {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(name, type, professor, day, classroom, start, end);
+        return Objects.hash(subject, type, professor, day, classroom, start, end);
     }
 
 
@@ -66,7 +91,7 @@ public class Lecture {
     @Override
     public String toString() {
         return "Lecture{" +
-                "name='" + name + '\'' +
+                "name='" + subject + '\'' +
                 ", type=" + type +
                 ", professor='" + professor + '\'' +
                 ", groups=" + groups +

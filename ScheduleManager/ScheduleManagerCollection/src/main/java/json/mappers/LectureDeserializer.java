@@ -20,7 +20,7 @@ public class LectureDeserializer extends JsonDeserializer<Lecture> {
         JsonNode node = jp.getCodec().readTree(jp);
         Lecture lecture = new Lecture();
 
-        lecture.setName(node.get("Predmet").asText());
+        lecture.setSubject(node.get("Predmet").asText());
         lecture.setType(LectureType.valueOf(node.get("Tip").asText()));
         lecture.setProfessor(node.get("Nastavnik").asText());
         lecture.setGroups(new HashSet<>(Arrays.asList(node.get("Grupe").asText().split(","))));

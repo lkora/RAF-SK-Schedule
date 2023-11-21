@@ -78,12 +78,11 @@ public class ScheduleManagerCSV implements ScheduleManagerService {
 		return lectures;
 	}
 
-	@SuppressWarnings("unused")
 	private Lecture mapColumnValue(Lecture lecture, ConfigMapping entry, CSVRecord record, Map<Integer, String> mappings) {
 		int columnIndex = entry.getIndex();
 
 		switch (mappings.get(columnIndex)) {
-			case "name" -> lecture.setName(record.get(columnIndex));
+			case "name" -> lecture.setSubject(record.get(columnIndex));
 			case "type" -> {
 				String typeString = record.get(columnIndex);
 				LectureType lectureType = LectureTypeMapper.mapToLectureType(typeString);
@@ -126,7 +125,7 @@ public class ScheduleManagerCSV implements ScheduleManagerService {
 		for (Lecture lecture : lectures) {
 			String timeRange = TimePeriodMapper.formatTimeRange(new TimePeriodMapper.TimeRange(lecture.getStart(), lecture.getEnd()));
 			csvPrinter.printRecord(
-					lecture.getName(),
+					lecture.getSubject(),
 					LectureTypeMapper.lectureTypeToString(lecture.getType()),
 					lecture.getProfessor(),
 					String.join(", ", lecture.getGroups()),

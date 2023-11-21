@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,5 +69,31 @@ public class ScheduleManager {
         }
     }
 
+
+    /**
+     * @param lectureList The list of lectures to sort.
+     */
+    public void sort(List<Lecture> lectureList) {
+        lectureList.sort(new Sorter());
+    }
+
+    private static class Sorter implements Comparator<Lecture> {
+        @Override
+        public int compare(Lecture first, Lecture second) {
+            if (first == second)
+                return 0;
+            if (first == null)
+                return -1;
+            if (second == null)
+                return 1;
+            if (first.getDay() != second.getDay()) {
+	            return first.getDay().compareTo(second.getDay());
+            }
+            if (first.getStart().equals(second.getStart())) {
+	            return first.getEnd().compareTo(second.getEnd());
+            }
+            return first.getStart().compareTo(second.getStart());
+        }
+    }
 }
 
