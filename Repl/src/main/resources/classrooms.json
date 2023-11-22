@@ -1,0 +1,176 @@
+[
+    {
+        "classroom": "Raf10 (a)",
+        "projector": false,
+        "no_spaces": 23,
+        "computers": 47
+    },
+    {
+        "classroom": "CET",
+        "projector": false,
+        "no_spaces": 32,
+        "computers": 12
+    },
+    {
+        "classroom": "Raf02 (u)",
+        "projector": true,
+        "no_spaces": 34,
+        "computers": 0
+    },
+    {
+        "classroom": "Raf08 (a)",
+        "projector": false,
+        "no_spaces": 18,
+        "computers": 8
+    },
+    {
+        "classroom": "Raf05 (u)",
+        "projector": false,
+        "no_spaces": 43,
+        "computers": 46
+    },
+    {
+        "classroom": "Raf21 (a)",
+        "projector": false,
+        "no_spaces": 48,
+        "computers": 0
+    },
+    {
+        "classroom": "Raf20 (a)",
+        "projector": true,
+        "no_spaces": 10,
+        "computers": 0
+    },
+    {
+        "classroom": "Kolarac2",
+        "projector": false,
+        "no_spaces": 38,
+        "computers": 0
+    },
+    {
+        "classroom": "Raf11 (a)",
+        "projector": false,
+        "no_spaces": 13,
+        "computers": 34
+    },
+    {
+        "classroom": "Rg06 (u)",
+        "projector": true,
+        "no_spaces": 26,
+        "computers": 29
+    },
+    {
+        "classroom": "Raf04 (u)",
+        "projector": true,
+        "no_spaces": 10,
+        "computers": 0
+    },
+    {
+        "classroom": "Raf01 (u)",
+        "projector": false,
+        "no_spaces": 29,
+        "computers": 0
+    },
+    {
+        "classroom": "Rg07 (u)",
+        "projector": true,
+        "no_spaces": 24,
+        "computers": 0
+    },
+    {
+        "classroom": "Rg01 (u)",
+        "projector": true,
+        "no_spaces": 23,
+        "computers": 0
+    },
+    {
+        "classroom": "Rg04 (u)",
+        "projector": false,
+        "no_spaces": 43,
+        "computers": 0
+    },
+    {
+        "classroom": "Kolarac1",
+        "projector": true,
+        "no_spaces": 28,
+        "computers": 2
+    },
+    {
+        "classroom": "Raf13 (MD)",
+        "projector": true,
+        "no_spaces": 45,
+        "computers": 0
+    },
+    {
+        "classroom": "Rg02 (u)",
+        "projector": true,
+        "no_spaces": 43,
+        "computers": 0
+    },
+    {
+        "classroom": "Raf14 (MD)",
+        "projector": false,
+        "no_spaces": 38,
+        "computers": 44
+    },
+    {
+        "classroom": "Raf18 (a)",
+        "projector": true,
+        "no_spaces": 22,
+        "computers": 0
+    },
+    {
+        "classroom": "Raf16 (MD)",
+        "projector": true,
+        "no_spaces": 43,
+        "computers": 47
+    },
+    {
+        "classroom": "Raf15 (MD)",
+        "projector": true,
+        "no_spaces": 50,
+        "computers": 44
+    },
+    {
+        "classroom": "Raf07 (u)",
+        "projector": false,
+        "no_spaces": 24,
+        "computers": 0
+    },
+    {
+        "classroom": "Kolarac3",
+        "projector": false,
+        "no_spaces": 32,
+        "computers": 0
+    },
+    {
+        "classroom": "Raf06 (a)",
+        "projector": true,
+        "no_spaces": 32,
+        "computers": 3
+    },
+    {
+        "classroom": "Raf12 (MD)",
+        "projector": true,
+        "no_spaces": 24,
+        "computers": 26
+    },
+    {
+        "classroom": "Raf19 (a)",
+        "projector": true,
+        "no_spaces": 20,
+        "computers": 12
+    },
+    {
+        "classroom": "Raf03 (u)",
+        "projector": false,
+        "no_spaces": 17,
+        "computers": 29
+    },
+    {
+        "classroom": "Raf09 (a)",
+        "projector": false,
+        "no_spaces": 26,
+        "computers": 17
+    }
+]

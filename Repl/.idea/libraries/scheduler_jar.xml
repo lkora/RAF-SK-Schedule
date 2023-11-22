@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="scheduler_jar">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../Scheduler/artifacts/scheduler_jar" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="file://$PROJECT_DIR$/../Scheduler/artifacts/scheduler_jar" recursive="false" />
+  </library>
+</component>
