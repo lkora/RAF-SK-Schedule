@@ -1,7 +1,7 @@
 public enum HelpMenu {
     START,
-    AVAILABLE_COMMANDS;
-
+    AVAILABLE_COMMANDS,
+    INIT;
 
     @Override
     public String toString() {
@@ -18,7 +18,11 @@ public enum HelpMenu {
                 }
                 return sb.toString();
             }
-
+            case INIT -> {
+                return "Enter which type of Schedule do you want: weekly or collection.\n" +
+                        "\tExample: weekly\n" +
+                        "\t\t\tDefault: weekly";
+            }
             default -> {
                 return "";
             }

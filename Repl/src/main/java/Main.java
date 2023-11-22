@@ -1,47 +1,70 @@
 import schedule.Schedule;
 import schedule.filter.Filter;
-import schedule.filter.GroupFilter;
-import schedule.filter.ProfessorFilter;
+import schedule.manager.collection.ScheduleManagerCollection;
 
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.Scanner;
 
 public class Main {
-    Schedule schedule = null;
-
+    private final ScheduleManagerCollection collection = new ScheduleManagerCollection();
+    private final ScheduleManagerWeekly weekly = new ScheduleManagerWeekly();
+    private Schedule schedule = null;
+    private final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
         Main mainInstance = new Main();
 
+        mainInstance.printInitialHelp();
+        mainInstance.initHandle();
+        mainInstance.handleCommands();
+    }
+
+    private void printInitialHelp() {
         System.out.println(HelpMenu.START);
         System.out.println(HelpMenu.AVAILABLE_COMMANDS);
+        System.out.println(HelpMenu.INIT);
+    }
 
-        Scanner scanner = new Scanner(System.in);
-        String input;
-
+    private void initHandle() {
         System.out.print("#> ");
+        String input = scanner.nextLine();
+        String[] parts = input.split(" ", 2);
+        String command = parts[0].toLowerCase();
+        initSwitch(command);
+    }
 
+    private void initSwitch(String command) {
+        switch (command) {
+            case "weekly":
+                schedule = new Schedule(weekly);
+                break;
+            case "collection":
+                schedule = new Schedule(collection);
+                break;
+            default:
+                System.out.println("Unknown command: " + command);
+        }
+    }
+
+    private void handleCommands() {
+        String input;
+        System.out.print("#> ");
         while (scanner.hasNextLine()) {
             input = scanner.nextLine();
-
             if ("q".equals(input)) {
                 System.out.println("Exiting...");
                 break;
             }
-
-            mainInstance.eval(input);
-
-            System.out.print("#>");
-
+            eval(input);
+            System.out.print("#> ");
         }
-
         scanner.close();
-
     }
 
     private void eval(String input) {
         input = input.trim().replaceAll("\\s+", " ");
-        String[] parts = input.split(" ", 2);
+        String[] parts = input.split(" ", 4);
         String command = parts[0].toLowerCase();
         String argument1 = parts.length > 1 ? parts[1] : null;
         String argument2 = parts.length > 2 ? parts[2] : null;
@@ -56,16 +79,16 @@ public class Main {
                 exportSchedule(argument1);
                 break;
             case "f":
-                if (argument1.equals("add")) {
+                if ("add".equals(argument1)) {
                     addFilter(argument2, argument3);
-                } else if (argument1.equals("remove")) {
+                } else if ("remove".equals(argument1)) {
                     removeFilter(argument2);
                 }
                 break;
             case "x":
-                if (argument1.equals("add")) {
+                if ("add".equals(argument1)) {
                     addExclusion(argument2, argument3);
-                } else if (argument1.equals("remove")) {
+                } else if ("remove".equals(argument1)) {
                     removeExclusion(argument2);
                 }
                 break;
@@ -90,21 +113,8 @@ public class Main {
     private void addExclusion(String name, String exclusionsPath) {
 
     }
-
-    // TODO: Add abstract filter creation in a FilterFactory (move filter creation away from user)
-    private Optional<Filter> createFilter(String filterName, String filter) {
-        Optional<Filter> newFilter;
-        // FIXME: Add Equatable enums to filters, avoids string comparison, try to map string to enum
-        switch (filterName.toLowerCase()) {
-            case "group" -> {
-                newFilter = Optional.of(new GroupFilter(filter));
-            }
-            case "professor" -> {
-                newFilter = Optional.of(new ProfessorFilter(filter));
-            }
-            default -> { return null; }
-        }
-        return newFilter;
+    private Optional<Filter> createFilter(String filterName, String requirement) {
+        return Optional.of(Filter.of(filterName, requirement));
     }
 
 
@@ -114,9 +124,7 @@ public class Main {
         }
 
         Optional<Filter> newFilter = createFilter(filterType, filter);
-        if (newFilter != null) {
-            schedule.addFilter(newFilter.get());
-        }
+	    newFilter.ifPresent(value -> schedule.addFilter(value));
     }
 
     private void removeFilter(String filterName) {
@@ -137,7 +145,7 @@ public class Main {
             String filterRequirement = filterConstruct[1];
 
             Optional<Filter> filterToRemove = createFilter(filterType, filterRequirement);
-            if (filterToRemove != null) {
+            if (filterToRemove.isPresent()) {
                 schedule.removeFilter(filterToRemove.get());
                 System.out.println("Successfully removed the filter for: " + filterType + " " + filterRequirement);
             } else {
@@ -151,15 +159,14 @@ public class Main {
 
 
     private void importSchedule(String pathToSchedule, String pathToClassroomDetails, String scheduleConfigPath) {
-        if (!checkParams(pathToSchedule, pathToClassroomDetails, scheduleConfigPath)) {
+        if (!checkParams(pathToSchedule, pathToClassroomDetails)) {
             return;
         }
         this.schedule = new Schedule();
         try {
+            schedule.loadClassroomAmenities(pathToClassroomDetails);
             schedule.loadSchedule(pathToSchedule, scheduleConfigPath);
 
-            // FIXME: CHECK THIS CLASSROOM LOAD IF IT WORKS AS EXPECTED, (It loads null)
-            schedule.loadClassroomAmenities(pathToClassroomDetails);
             System.out.println("Import successful!");
         } catch (Exception e) {
             System.err.println("Failed importing schedule with: " + e.getLocalizedMessage());
@@ -189,6 +196,7 @@ public class Main {
     }
 
     private boolean checkParams(String... args) {
+        Arrays.stream(args).forEach(System.out::println);
         for (String arg : args) {
             if (arg == null) {
                 System.err.println("Arguments cannot be null, check help 'h' for usage!");
