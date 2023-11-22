@@ -8,29 +8,28 @@ import java.util.function.Predicate;
 /**
  * Interface for filtering lectures.
  * <p>
- *     This interface extends {@link Predicate} and is used to filter lectures by a given requirement.
+ * This interface extends {@link Predicate} and is used to filter lectures by a given requirement.
+ *
  * @see Predicate
  */
 @FunctionalInterface
 public interface Filter extends Predicate<Lecture> {
-
 	/**
 	 * Creates a new Filter object based on the given type and requirement.
 	 *
-	 * @param type       the type of filter to create
+	 * @param type        the type of filter to create
 	 * @param requirement the requirement for the filter
 	 * @return a new Filter object
 	 */
-	static Filter of(String type, String requirement) {
+	static Filter of(FilterType type, String requirement) {
 		return switch (type) {
-			case "subject" -> new SubjectFilter(requirement);
-			case "professor" -> new ProfessorFilter(requirement);
-			case "group" -> new GroupFilter(requirement);
-			case "classroom-projector" -> new ClassroomProjectorFilter(requirement);
-			case "classroom-computer" -> new ClassroomComputerFilter(Integer.parseInt(requirement));
-			case "classroom-name" -> new ClassroomNameFilter(requirement);
-			case "classroom-size" -> new ClassroomSizeFilter(Integer.parseInt(requirement));
- 			default -> throw new IllegalArgumentException("Unknown filter type: " + type);
+			case SUBJECT -> new SubjectFilter(requirement);
+			case PROFESSOR -> new ProfessorFilter(requirement);
+			case GROUP -> new GroupFilter(requirement);
+			case CLASSROOM_PROJECTOR -> new ClassroomProjectorFilter(requirement);
+			case CLASSROOM_COMPUTER -> new ClassroomComputerFilter(Integer.parseInt(requirement));
+			case CLASSROOM_NAME -> new ClassroomNameFilter(requirement);
+			case CLASSROOM_SIZE -> new ClassroomSizeFilter(Integer.parseInt(requirement));
 		};
 	}
 
@@ -67,5 +66,14 @@ public interface Filter extends Predicate<Lecture> {
 	default Filter and(Predicate<? super Lecture> other) {
 		Objects.requireNonNull(other);
 		return (t) -> test(t) && other.test(t);
+	}
+
+	/**
+	 * Enum representing different types of filters that the library provides an implementation for.
+	 * The user can implement other types of filters by subclassing or with lambdas.
+	 */
+	enum FilterType {
+		SUBJECT, PROFESSOR, GROUP, CLASSROOM_PROJECTOR,
+		CLASSROOM_COMPUTER, CLASSROOM_NAME, CLASSROOM_SIZE
 	}
 }
