@@ -1,7 +1,6 @@
 package schedule;
 
 import lombok.Getter;
-import lombok.Setter;
 import schedule.classroom.Classroom;
 import schedule.common.ValidityPeriod;
 import schedule.exclusions.Exclusion;
@@ -124,6 +123,10 @@ public class Schedule {
 	 */
 	public void initializeValidityPeriod(String path) throws Exception {
 		validityPeriod = manager.initializeValidityPeriod(path);
+	}
+
+	public void initExclusions(String path) throws Exception {
+		exclusions.addAll(manager.initExclusions(path));
 	}
 
 	/**

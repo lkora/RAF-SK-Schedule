@@ -5,10 +5,12 @@ import lombok.Setter;
 import schedule.classroom.Classroom;
 import schedule.classroom.ClassroomRegistry;
 import schedule.common.ValidityPeriod;
+import schedule.exclusions.Exclusion;
 import schedule.lecture.Lecture;
 import schedule.manager.service.provided.csv.ScheduleManagerCSV;
 import schedule.manager.service.provided.json.ScheduleManagerJSON;
 import schedule.manager.service.provided.json.mappers.ClassroomMapper;
+import schedule.manager.service.provided.json.mappers.ExclusionMapper;
 import schedule.manager.service.provided.pdf.ScheduleExporterPDF;
 
 import java.io.*;
@@ -49,6 +51,17 @@ public class ScheduleManager {
 		}
 	}
 
+	/**
+	 * Initializes the list of exclusions using the specified path.
+	 *
+	 * @param path the path of the file containing the exclusion information
+	 * @return a List of Exclusion objects initialized with the data read from the file
+	 * @throws IOException if an I/O error occurs while reading the file
+	 */
+	public List<Exclusion> initExclusions(String path) throws IOException {
+		var mapper = new ExclusionMapper();
+		return new ArrayList<>(mapper.getExclusion(path));
+	}
 	/**
 	 * Loads a schedule from a file and returns a list of lectures.
 	 *
