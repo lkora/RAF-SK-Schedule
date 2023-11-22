@@ -21,9 +21,8 @@ import java.util.*;
 @SuppressWarnings("DuplicatedCode")
 public class ScheduleManagerCSV implements ScheduleManagerService {
 
-	public ScheduleManagerCSV() {
-		initializeClassrooms();
-	}
+	public ScheduleManagerCSV() {}
+
 	private static List<ConfigMapping> readConfig(String filePath) throws FileNotFoundException {
 		List<ConfigMapping> mappings = new ArrayList<>();
 
@@ -142,15 +141,4 @@ public class ScheduleManagerCSV implements ScheduleManagerService {
 		return true;
 	}
 
-	@Override
-	public void initializeClassrooms() {
-		List<Classroom> classrooms;
-		try {
-			var mapper = new ClassroomMapper();
-			classrooms = new ArrayList<>(mapper.getClassrooms("Schedule/src/main/resources/classrooms.json"));
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-		ClassroomRegistry.initialize(classrooms);
-	}
 }

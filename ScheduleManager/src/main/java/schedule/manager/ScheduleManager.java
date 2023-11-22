@@ -2,6 +2,8 @@ package schedule.manager;
 
 import csv.ScheduleManagerCSV;
 import json.ScheduleManagerJSON;
+import json.mappers.ClassroomMapper;
+import schedule.classroom.Classroom;
 import schedule.lecture.Lecture;
 
 import java.io.File;
@@ -36,6 +38,28 @@ public class ScheduleManager {
 
         return new ArrayList<>();
     }
+
+    /**
+     * Loads Classroom configurations from an external file
+     *
+     * @param classroomDetails The path for classroom details JSON file, this file should be configured as following:
+     *     {
+     *         "classroom": "Raf10 (a)",
+     *         "projector": false,
+     *         "no_spaces": 23,
+     *         "computers": 47
+     *     }
+     * @throws IOException If an I/O error occurs during the data loading process.
+     */
+    public void initializeClassrooms(String classroomDetails) throws IOException {
+        List<Classroom> classrooms;
+        var mapper = new ClassroomMapper();
+        classrooms = new ArrayList<>(mapper.getClassrooms(classroomDetails));
+
+        Classroom.initialize(classrooms);
+    }
+
+
     public void writeSchedule(List<Lecture> lectures, String path) throws Exception {
         File file = new File(path);
         if (!file.exists()) {

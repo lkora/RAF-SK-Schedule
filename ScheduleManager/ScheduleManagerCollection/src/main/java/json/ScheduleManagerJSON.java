@@ -35,7 +35,6 @@ public class ScheduleManagerJSON implements ScheduleManagerService {
 
         objectMapper.registerModule(module);
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-        initializeClassrooms();
     }
 
     @Override
@@ -68,15 +67,4 @@ public class ScheduleManagerJSON implements ScheduleManagerService {
         return true;
     }
 
-    @Override
-    public void initializeClassrooms() {
-        List<Classroom> classrooms;
-        try {
-            var mapper = new ClassroomMapper();
-            classrooms = new ArrayList<>(mapper.getClassrooms("Schedule/src/main/resources/classrooms.json"));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        ClassroomRegistry.initialize(classrooms);
-    }
 }

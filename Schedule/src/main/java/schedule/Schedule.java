@@ -5,6 +5,7 @@ import schedule.filter.Filter;
 import schedule.lecture.Lecture;
 import schedule.manager.ScheduleManager;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiPredicate;
@@ -48,6 +49,22 @@ public class Schedule {
 	 */
 	public void loadSchedule(String path, String config) throws Exception {
 		lectureList = manager.loadSchedule(path, config);
+	}
+
+	/**
+	 * Loads Classroom configurations from an external file
+	 *
+	 * @param path The path for classroom details JSON file, this file should be configured as following:
+	 *     {
+	 *         "classroom": "Raf10 (a)",
+	 *         "projector": false,
+	 *         "no_spaces": 23,
+	 *         "computers": 47
+	 *     }
+	 * @throws IOException If an I/O error occurs during the data loading process.
+	 */
+	public void loadClassroomAmenities(String path) throws Exception {
+		manager.initializeClassrooms(path);
 	}
 
 	/**

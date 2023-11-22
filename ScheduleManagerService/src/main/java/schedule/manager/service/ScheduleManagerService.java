@@ -5,6 +5,5 @@ import schedule.importer.spec.ScheduleImporter;
 
 public interface ScheduleManagerService extends ScheduleExporter, ScheduleImporter {
 
-	void initializeClassrooms();
 
 }

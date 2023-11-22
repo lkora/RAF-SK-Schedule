@@ -20,4 +20,5 @@ public interface ScheduleImporter {
      * @throws IOException If an I/O error occurs during the data loading process.
      */
     List<Lecture> loadData(String path, String configPath) throws IOException;
+
 }
