@@ -4,6 +4,7 @@ import csv.ScheduleManagerCSV;
 import json.ScheduleManagerJSON;
 import json.mappers.ClassroomMapper;
 import schedule.classroom.Classroom;
+import schedule.classroom.ClassroomRegistry;
 import schedule.lecture.Lecture;
 
 import java.io.File;
@@ -56,7 +57,7 @@ public class ScheduleManager {
         var mapper = new ClassroomMapper();
         classrooms = new ArrayList<>(mapper.getClassrooms(classroomDetails));
 
-        Classroom.initialize(classrooms);
+        ClassroomRegistry.initialize(classrooms);
     }
 
 
