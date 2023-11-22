@@ -1,0 +1,16 @@
+schedule
+schedule.classroom
+schedule.common
+schedule.exclusions
+schedule.exporter.spec
+schedule.filter
+schedule.importer.spec
+schedule.lecture
+schedule.lecture.type
+schedule.manager
+schedule.manager.service
+schedule.manager.service.provided.csv
+schedule.manager.service.provided.csv.mappers
+schedule.manager.service.provided.json
+schedule.manager.service.provided.json.mappers
+schedule.manager.service.provided.pdf
