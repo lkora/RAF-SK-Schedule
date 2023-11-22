@@ -52,10 +52,8 @@ public class ScheduleManager {
 				case JSON -> {
 					return new ScheduleManagerJSON().loadData(path, configPath);
 				}
-				case PDF -> {
-					throw new FileTypeNotSupportedException("PDF files are not supported for loading. " +
-							"File type must be either .csv or .json");
-				}
+				case PDF -> throw new FileTypeNotSupportedException("PDF files are not supported for loading. " +
+						"File type must be either .csv or .json");
 			}
 		}
 

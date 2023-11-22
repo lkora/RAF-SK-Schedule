@@ -1,6 +1,7 @@
 package schedule;
 
 import lombok.Getter;
+import schedule.common.ValidityPeriod;
 import schedule.filter.Filter;
 import schedule.lecture.Lecture;
 import schedule.manager.ScheduleManager;
@@ -30,6 +31,13 @@ public class Schedule {
 	 */
 	@Getter
 	private List<Lecture> lectureList = new ArrayList<>();
+
+	/**
+	 * The validity period of the schedule.
+	 */
+	private ValidityPeriod validityPeriod;
+
+
 	/**
 	 * Constructor for the Schedule class.
 	 * Initializes the ScheduleManager.
