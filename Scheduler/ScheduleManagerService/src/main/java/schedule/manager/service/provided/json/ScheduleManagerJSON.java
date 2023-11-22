@@ -1,22 +1,19 @@
-package json;
+package schedule.manager.service.provided.json;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import json.mappers.ClassroomMapper;
-import json.mappers.LectureDeserializer;
-import json.mappers.LectureSerializer;
 import schedule.classroom.Classroom;
-import schedule.classroom.ClassroomRegistry;
 import schedule.lecture.Lecture;
 import schedule.manager.service.ScheduleManagerService;
+import schedule.manager.service.provided.json.mappers.ClassroomMapper;
+import schedule.manager.service.provided.json.mappers.LectureDeserializer;
+import schedule.manager.service.provided.json.mappers.LectureSerializer;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 

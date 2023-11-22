@@ -1,5 +1,5 @@
 
-package csv.mappers;
+package schedule.manager.service.provided.csv.mappers;
 
 public class ConfigMapping {
     private Integer index;

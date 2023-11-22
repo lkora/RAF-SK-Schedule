@@ -1,4 +1,4 @@
-package csv.mappers;
+package schedule.manager.service.provided.csv.mappers;
 
 import schedule.lecture.type.LectureType;
 

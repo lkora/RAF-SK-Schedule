@@ -1,4 +1,4 @@
-package json.mappers;
+package schedule.manager.service.provided.json.mappers;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;

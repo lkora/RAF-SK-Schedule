@@ -1,19 +1,17 @@
-package csv;
+package schedule.manager.service.provided.csv;
 
-import csv.mappers.ConfigMapping;
-import csv.mappers.DayMapper;
-import csv.mappers.LectureTypeMapper;
-import csv.mappers.TimePeriodMapper;
-import json.mappers.ClassroomMapper;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
 import schedule.classroom.Classroom;
-import schedule.classroom.ClassroomRegistry;
 import schedule.lecture.Lecture;
 import schedule.lecture.type.LectureType;
 import schedule.manager.service.ScheduleManagerService;
+import schedule.manager.service.provided.csv.mappers.ConfigMapping;
+import schedule.manager.service.provided.csv.mappers.DayMapper;
+import schedule.manager.service.provided.csv.mappers.LectureTypeMapper;
+import schedule.manager.service.provided.csv.mappers.TimePeriodMapper;
 
 import java.io.*;
 import java.util.*;
@@ -21,7 +19,8 @@ import java.util.*;
 @SuppressWarnings("DuplicatedCode")
 public class ScheduleManagerCSV implements ScheduleManagerService {
 
-	public ScheduleManagerCSV() {}
+	public ScheduleManagerCSV() {
+	}
 
 	private static List<ConfigMapping> readConfig(String filePath) throws FileNotFoundException {
 		List<ConfigMapping> mappings = new ArrayList<>();
@@ -61,11 +60,7 @@ public class ScheduleManagerCSV implements ScheduleManagerService {
 		}
 
 		FileReader fileReader = new FileReader(filePath);
-		CSVParser parser = CSVFormat.Builder.create(CSVFormat.DEFAULT)
-				.setHeader()
-				.setSkipHeaderRecord(true)
-				.build()
-				.parse(fileReader);
+		CSVParser parser = CSVFormat.Builder.create(CSVFormat.DEFAULT).setHeader().setSkipHeaderRecord(true).build().parse(fileReader);
 
 		for (CSVRecord record : parser) {
 			Lecture lecture = new Lecture();
@@ -112,27 +107,11 @@ public class ScheduleManagerCSV implements ScheduleManagerService {
 
 	private boolean writeDataToCSV(List<Lecture> lectures, String path) throws IOException {
 		FileWriter fileWriter = new FileWriter(path);
-		CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.Builder.create().setHeader(
-				"name",
-				"type",
-				"professor",
-				"groups",
-				"day",
-				"timeRange",
-				"classroom"
-		).build());
+		CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.Builder.create().setHeader("name", "type", "professor", "groups", "day", "timeRange", "classroom").build());
 
 		for (Lecture lecture : lectures) {
 			String timeRange = TimePeriodMapper.formatTimeRange(new TimePeriodMapper.TimeRange(lecture.getStart(), lecture.getEnd()));
-			csvPrinter.printRecord(
-					lecture.getSubject(),
-					LectureTypeMapper.lectureTypeToString(lecture.getType()),
-					lecture.getProfessor(),
-					String.join(", ", lecture.getGroups()),
-					DayMapper.mapToAbbreviation(lecture.getDay()),
-					timeRange,
-					lecture.getClassroom().getName()
-			);
+			csvPrinter.printRecord(lecture.getSubject(), LectureTypeMapper.lectureTypeToString(lecture.getType()), lecture.getProfessor(), String.join(", ", lecture.getGroups()), DayMapper.mapToAbbreviation(lecture.getDay()), timeRange, lecture.getClassroom().getName());
 		}
 
 		csvPrinter.close();

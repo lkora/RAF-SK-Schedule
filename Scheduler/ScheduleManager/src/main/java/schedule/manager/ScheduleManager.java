@@ -1,11 +1,11 @@
 package schedule.manager;
 
-import csv.ScheduleManagerCSV;
-import json.ScheduleManagerJSON;
-import json.mappers.ClassroomMapper;
 import schedule.classroom.Classroom;
 import schedule.classroom.ClassroomRegistry;
 import schedule.lecture.Lecture;
+import schedule.manager.service.provided.csv.ScheduleManagerCSV;
+import schedule.manager.service.provided.json.ScheduleManagerJSON;
+import schedule.manager.service.provided.json.mappers.ClassroomMapper;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,6 +20,15 @@ public class ScheduleManager {
     public ScheduleManager() {
     }
 
+    /**
+     * Loads a schedule from a file and returns a list of lectures.
+     *
+     * @param path The path of the file to load the schedule from.
+     * @param configPath The path of the configuration file.
+     * @return A list of lectures representing the loaded schedule.
+     * @throws FileNotFoundException If the file specified by the path does not exist.
+     * @throws Exception If an error occurs while loading the schedule.
+     */
     public List<Lecture> loadSchedule(String path, String configPath) throws Exception {
         File file = new File(path);
         if (!file.exists()) { throw new FileNotFoundException(); }
@@ -61,6 +70,14 @@ public class ScheduleManager {
     }
 
 
+    /**
+     * Writes the schedule of lectures to an external file in either CSV or JSON format.
+     * The file format is determined based on the extension of the file name.
+     *
+     * @param lectures The list of lectures to be exported to the file.
+     * @param path The path for the output file.
+     * @throws Exception If an error occurs during the file writing process.
+     */
     public void writeSchedule(List<Lecture> lectures, String path) throws Exception {
         File file = new File(path);
         if (!file.exists()) {
