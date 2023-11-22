@@ -1,5 +1,9 @@
 import schedule.Schedule;
+import schedule.common.ValidityPeriod;
 import schedule.filter.GroupFilter;
+import schedule.manager.collection.ScheduleManagerCollection;
+
+import java.time.LocalDate;
 
 /**
 
@@ -43,7 +47,9 @@ public class Test {
      * @param args The command-line arguments.
      */
     public static void main(String[] args) {
-	    Schedule schedule = new Schedule();
+        var manager = new ScheduleManagerCollection();
+	    Schedule schedule = new Schedule(manager);
+        schedule.setValidityPeriod(new ValidityPeriod(LocalDate.now(), LocalDate.now().plusDays(140)));
         // READ CSV -> WRITE JSON -> READ JSON -> WRITE CSV
         try {
             schedule.loadClassroomAmenities("Schedule/src/test/resources/classrooms.json");
@@ -53,7 +59,9 @@ public class Test {
             schedule.sort();
             schedule.addFilter(filter);
             schedule.filtered().forEach(System.out::println);
+            manager.writeSchedule(schedule.filtered(), "Schedule/src/test/resources/csv/schedule_export_306.pdf");
             schedule.exportSchedule("Schedule/src/test/resources/csv/schedule_export.pdf");
+            schedule.exportSchedule("Schedule/src/test/resources/csv/schedule_export.json");
 //            schedule.getLectures().forEach(System.out::println);
 //            schedule.exportSchedule("Schedule/src/main/resources/collection/csv/schedule_export.json");
 //

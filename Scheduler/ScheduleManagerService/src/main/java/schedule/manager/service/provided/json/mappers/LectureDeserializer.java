@@ -5,11 +5,13 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import schedule.classroom.Classroom;
+import schedule.common.ValidityPeriod;
 import schedule.lecture.Lecture;
 import schedule.lecture.type.LectureType;
 
 import java.io.IOException;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -43,7 +45,9 @@ public class LectureDeserializer extends JsonDeserializer<Lecture> {
 		lecture.setStart(LocalTime.parse(times[0]));
 		lecture.setEnd(LocalTime.parse(times[1]));
 		lecture.setClassroom(Classroom.forName(node.get("Učionica").asText()).orElse(null));
-
+		String validFrom = node.get("validFrom").asText();
+		String validTo = node.get("validTo").asText();
+		lecture.setValidityPeriod(new ValidityPeriod(LocalDate.parse(validFrom), LocalDate.parse(validTo)));
 		return lecture;
 	}
 }

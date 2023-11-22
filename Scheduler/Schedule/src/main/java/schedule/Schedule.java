@@ -28,8 +28,8 @@ import java.util.stream.Collectors;
  *     schedule.loadClassroomAmenities("path/to/classroom/amenities.json");
  *     schedule.loadSchedule("path/to/schedule.csv", "path/to/config.json");
  * </pre>
- *
- *
+ * <p>
+ * <p>
  * }
  */
 public class Schedule {
@@ -41,7 +41,6 @@ public class Schedule {
 
 	/**
 	 * A list of exclusions for the schedule.
-
 	 */
 	private final List<Exclusion> exclusions = new ArrayList<>();
 
@@ -54,7 +53,6 @@ public class Schedule {
 	 */
 	@Getter
 	private List<Lecture> lectures = new ArrayList<>();
-
 	/**
 	 * The validity period of the schedule.
 	 */
@@ -62,21 +60,40 @@ public class Schedule {
 	@Setter
 	private ValidityPeriod validityPeriod;
 
-
 	/**
 	 * Constructor for the Schedule class.
-	 * Initializes the ScheduleManager.
+	 * Initializes the default ScheduleManager.
 	 */
 	public Schedule() {
 		manager = new ScheduleManager();
 	}
 
 	/**
+	 * Constructs a Schedule object with the specified ScheduleManager.
+	 *
+	 * @param manager the ScheduleManager to associate with this Schedule
+	 */
+	public Schedule(ScheduleManager manager) {
+		this.manager = manager;
+	}
+
+	/**
+	 * Sets the validity period for this Schedule.
+	 *
+	 * @param validityPeriod the validity period to be set for the Schedule
+	 */
+	public void setValidityPeriod(ValidityPeriod validityPeriod) {
+		this.validityPeriod = validityPeriod;
+		manager.setValidityPeriod(validityPeriod);
+	}
+
+	/**
 	 * Loads the schedule from a given path and configuration.
-	 * @apiNote The call to {@code loadClassroomAmenities} must be made before calling this method.
+	 *
 	 * @param path   The path to the schedule file.
 	 * @param config The configuration for loading the schedule.
 	 * @throws Exception If an error occurs while loading the schedule.
+	 * @apiNote The call to {@code loadClassroomAmenities} must be made before calling this method.
 	 */
 	public void loadSchedule(String path, String config) throws Exception {
 		lectures = manager.loadSchedule(path, config);
@@ -160,12 +177,11 @@ public class Schedule {
 	/**
 	 * Returns a string representing all the filter names in the collection.
 	 * Each filter name is separated by a newline character.
+	 *
 	 * @return a string representing all the filter names
 	 */
 	public String getFiltersString() {
-		return filters.stream()
-				.map(Filter::getName)
-				.collect(Collectors.joining("\n"));
+		return filters.stream().map(Filter::getName).collect(Collectors.joining("\n"));
 	}
 
 	/**
@@ -245,10 +261,10 @@ public class Schedule {
 	 * Note: The lecture must already be in the schedule.
 	 *
 	 * @param lecture The lecture to be moved.
-	 * @param start New start time of the lecture
-	 * @param end New end time of the lecture
-	 * @throws IllegalArgumentException If the lecture is not in schedule
+	 * @param start   New start time of the lecture
+	 * @param end     New end time of the lecture
 	 * @return True if the lecture is successfully moved.
+	 * @throws IllegalArgumentException If the lecture is not in schedule
 	 */
 	public boolean moveLecture(Lecture lecture, LocalTime start, LocalTime end) {
 		// Validate input
@@ -265,9 +281,7 @@ public class Schedule {
 	}
 
 	private boolean hasFreeSpot(ValidityPeriod validityPeriod, Classroom classroom) {
-		return lectures.stream()
-				.filter(lecture -> lecture.getClassroom().equals(classroom))
-				.noneMatch(lecture -> lecture.getValidityPeriod().overlaps(validityPeriod));
+		return lectures.stream().filter(lecture -> lecture.getClassroom().equals(classroom)).noneMatch(lecture -> lecture.getValidityPeriod().overlaps(validityPeriod));
 	}
 
 	/**

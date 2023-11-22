@@ -4,7 +4,7 @@ root_directory=$(pwd)
 command_to_run='mvn clean install'
 
 # Building list of modules
-declare -a modules=("Lecture" "ScheduleManagerService/ScheduleImporterSpec" "ScheduleManagerService/ScheduleExporterSpec" "ScheduleManagerService" "ScheduleManager/ScheduleManagerCollection" "ScheduleManager" "Schedule")
+declare -a modules=("Lecture" "ScheduleManagerService/ScheduleImporterSpec" "ScheduleManagerService/ScheduleExporterSpec" "ScheduleManagerService" "ScheduleManager" "ScheduleManager/ScheduleManagerCollection" "ScheduleManager/ScheduleManagerWeekly" "Schedule")
 
 # Build all modules first
 for module in "${modules[@]}"; do

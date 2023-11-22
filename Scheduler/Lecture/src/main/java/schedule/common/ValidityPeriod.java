@@ -8,6 +8,11 @@ import java.time.LocalDate;
  * defined by a start date ("valid from") and an end date ("valid to").
  */
 public record ValidityPeriod(LocalDate validFrom, LocalDate validTo) {
+	public ValidityPeriod {
+		if (validFrom.isAfter(validTo)) {
+			throw new IllegalArgumentException("validFrom must be before validTo");
+		}
+	}
 
 	/**
 	 * Checks if a given date is within the valid range.

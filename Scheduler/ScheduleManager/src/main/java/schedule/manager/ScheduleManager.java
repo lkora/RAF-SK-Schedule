@@ -1,5 +1,7 @@
 package schedule.manager;
 
+import lombok.Getter;
+import lombok.Setter;
 import schedule.classroom.Classroom;
 import schedule.classroom.ClassroomRegistry;
 import schedule.common.ValidityPeriod;
@@ -16,7 +18,11 @@ import java.util.*;
 /**
  * The ScheduleManager class is responsible for loading, writing, and manipulating schedules.
  */
+@Getter
+@Setter
 public class ScheduleManager {
+	// Hack to allow copying lectures.
+	protected ValidityPeriod validityPeriod;
 
 	/**
 	 * Creates a new instance of ScheduleManager.
@@ -38,8 +44,8 @@ public class ScheduleManager {
 			prop.load(input);
 			LocalDate start = LocalDate.parse(prop.getProperty("validity-period.start"));
 			LocalDate end = LocalDate.parse(prop.getProperty("validity-period.end"));
-
-			return new ValidityPeriod(start, end);
+			validityPeriod = new ValidityPeriod(start, end);
+			return validityPeriod;
 		}
 	}
 
