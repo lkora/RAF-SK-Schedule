@@ -57,7 +57,6 @@ public class Schedule {
 	 * The validity period of the schedule.
 	 */
 	@Getter
-	@Setter
 	private ValidityPeriod validityPeriod;
 
 	/**
