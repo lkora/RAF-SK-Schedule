@@ -3,11 +3,13 @@ import json
 import random
 
 def generate_classroom_data(unique_ucionica):
+    no_spaces = random.randint(10, 50)
+    no_computers = min(no_spaces + 1, random.randint(0, 50)) if random.random() < 0.5 else 0
     return {
         "classroom": unique_ucionica,
         "projector": False if random.random() < 0.5 else True,
-        "no_spaces": random.randint(10, 50),
-        "computers": random.randint(0, 50) if random.random() < 0.5 else 0
+        "no_spaces": no_spaces,
+        "computers": no_computers
     }
 
 def process_csv(input_csv_path, output_json_path):
