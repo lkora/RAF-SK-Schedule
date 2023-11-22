@@ -52,7 +52,7 @@ public class Test {
             schedule.sort();
             schedule.addFilter(filter);
             schedule.filtered().forEach(System.out::println);
-
+            schedule.exportSchedule("Schedule/src/main/resources/collection/csv/schedule_export.pdf");
 //            schedule.getLectureList().forEach(System.out::println);
 //            schedule.exportSchedule("Schedule/src/main/resources/collection/csv/schedule_export.json");
 //
