@@ -15,10 +15,20 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>org.schedule</groupId>
+            <groupId>raf.sk.schedule</groupId>
             <artifactId>Schedule</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>raf.sk.schedule</groupId>
+            <artifactId>ScheduleManagerCollection</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>raf.sk.schedule</groupId>
+            <artifactId>ScheduleManagerWeekly</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
