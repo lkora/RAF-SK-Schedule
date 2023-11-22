@@ -14,6 +14,18 @@ import java.util.function.Predicate;
  */
 @FunctionalInterface
 public interface Filter extends Predicate<Lecture> {
+
+	/**
+	 * Creates a filter based on the provided type and requirement.
+	 *
+	 * @param type        the filter type as a string
+	 * @param requirement the requirement for the filter
+	 * @return a Filter object
+	 */
+	static Filter of(String type, String requirement) {
+		return of(FilterType.valueOf(type.toUpperCase()), requirement);
+	}
+
 	/**
 	 * Creates a new Filter object based on the given type and requirement.
 	 *
@@ -73,7 +85,6 @@ public interface Filter extends Predicate<Lecture> {
 	 * The user can implement other types of filters by subclassing or with lambdas.
 	 */
 	enum FilterType {
-		SUBJECT, PROFESSOR, GROUP, CLASSROOM_PROJECTOR,
-		CLASSROOM_COMPUTER, CLASSROOM_NAME, CLASSROOM_SIZE
+		SUBJECT, PROFESSOR, GROUP, CLASSROOM_PROJECTOR, CLASSROOM_COMPUTER, CLASSROOM_NAME, CLASSROOM_SIZE
 	}
 }
