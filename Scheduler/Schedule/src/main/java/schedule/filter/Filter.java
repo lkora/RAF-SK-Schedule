@@ -14,6 +14,26 @@ import java.util.function.Predicate;
 @FunctionalInterface
 public interface Filter extends Predicate<Lecture> {
 
+	/**
+	 * Creates a new Filter object based on the given type and requirement.
+	 *
+	 * @param type       the type of filter to create
+	 * @param requirement the requirement for the filter
+	 * @return a new Filter object
+	 */
+	static Filter of(String type, String requirement) {
+		return switch (type) {
+			case "subject" -> new SubjectFilter(requirement);
+			case "professor" -> new ProfessorFilter(requirement);
+			case "group" -> new GroupFilter(requirement);
+			case "classroom-projector" -> new ClassroomProjectorFilter(requirement);
+			case "classroom-computer" -> new ClassroomComputerFilter(Integer.parseInt(requirement));
+			case "classroom-name" -> new ClassroomNameFilter(requirement);
+			case "classroom-size" -> new ClassroomSizeFilter(Integer.parseInt(requirement));
+ 			default -> throw new IllegalArgumentException("Unknown filter type: " + type);
+		};
+	}
+
 	@Override
 	boolean test(Lecture lecture);
 

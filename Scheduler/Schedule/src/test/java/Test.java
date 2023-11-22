@@ -54,11 +54,11 @@ public class Test {
             schedule.addFilter(filter);
             schedule.filtered().forEach(System.out::println);
             schedule.exportSchedule("Schedule/src/test/resources/csv/schedule_export.pdf");
-//            schedule.getLectureList().forEach(System.out::println);
+//            schedule.getLectures().forEach(System.out::println);
 //            schedule.exportSchedule("Schedule/src/main/resources/collection/csv/schedule_export.json");
 //
 //            schedule.loadSchedule("Schedule/src/main/resources/collection/csv/schedule_export.json", null);
-//            schedule.getLectureList().forEach(System.err::println);
+//            schedule.getLectures().forEach(System.err::println);
 //            schedule.exportSchedule("Schedule/src/main/resources/collection/csv/schedule_export.csv");
         } catch (Exception e) {
             e.printStackTrace();

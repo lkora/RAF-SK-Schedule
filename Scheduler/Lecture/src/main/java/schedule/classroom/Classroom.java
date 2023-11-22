@@ -1,6 +1,7 @@
 package schedule.classroom;
 
 
+import lombok.AccessLevel;
 import lombok.Getter;
 
 import java.util.Objects;
@@ -22,6 +23,7 @@ public final class Classroom {
 	/**
 	 * Whether the classroom has a projector.
 	 */
+	@Getter(AccessLevel.NONE) // cheat to make lombok not generate a getter for this field
 	private final boolean projector;
 	/**
 	 * The number of seats in the classroom.
@@ -53,6 +55,16 @@ public final class Classroom {
 	public static Optional<Classroom> forName(String name) {
 		return ClassroomRegistry.forName(name);
 	}
+
+	/**
+	 * Checks if the classroom has a projector.
+	 *
+	 * @return true if the classroom has a projector, false otherwise
+	 */
+	public boolean hasProjector() {
+		return projector;
+	}
+
 
 	/**
 	 * Value-based equality.
