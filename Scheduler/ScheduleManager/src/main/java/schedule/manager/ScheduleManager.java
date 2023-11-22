@@ -43,7 +43,7 @@ public class ScheduleManager {
     /**
      * Loads Classroom configurations from an external file
      *
-     * @param classroomDetails The path for classroom details JSON file, this file should be configured as following:
+     * @param path The path for classroom details JSON file, this file should be configured as following:
      *     {
      *         "classroom": "Raf10 (a)",
      *         "projector": false,
@@ -52,10 +52,10 @@ public class ScheduleManager {
      *     }
      * @throws IOException If an I/O error occurs during the data loading process.
      */
-    public void initializeClassrooms(String classroomDetails) throws IOException {
+    public void initializeClassrooms(String path) throws IOException {
         List<Classroom> classrooms;
         var mapper = new ClassroomMapper();
-        classrooms = new ArrayList<>(mapper.getClassrooms(classroomDetails));
+        classrooms = new ArrayList<>(mapper.getClassrooms(path));
 
         ClassroomRegistry.initialize(classrooms);
     }
