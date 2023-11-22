@@ -10,4 +10,9 @@ public record ClassroomNameFilter(String requirement) implements Filter {
 	public boolean test(Lecture lecture) {
 		return lecture.getClassroom().getName().toLowerCase().contains(requirement.toLowerCase());
 	}
+
+	@Override
+	public String getName() {
+		return "classroom_name_" + requirement;
+	}
 }

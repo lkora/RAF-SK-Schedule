@@ -13,4 +13,10 @@ public record SubjectFilter(String requirement) implements Filter {
 	public boolean test(Lecture lecture) {
 		return lecture.getSubject().toLowerCase().contains(requirement.toLowerCase());
 	}
+
+
+	@Override
+	public String getName() {
+		return "subject_" + requirement;
+	}
 }

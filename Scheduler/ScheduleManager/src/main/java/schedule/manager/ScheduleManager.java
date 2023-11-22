@@ -2,19 +2,16 @@ package schedule.manager;
 
 import schedule.classroom.Classroom;
 import schedule.classroom.ClassroomRegistry;
+import schedule.common.ValidityPeriod;
 import schedule.lecture.Lecture;
 import schedule.manager.service.provided.csv.ScheduleManagerCSV;
 import schedule.manager.service.provided.json.ScheduleManagerJSON;
 import schedule.manager.service.provided.json.mappers.ClassroomMapper;
 import schedule.manager.service.provided.pdf.ScheduleExporterPDF;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.io.*;
+import java.time.LocalDate;
+import java.util.*;
 
 /**
  * The ScheduleManager class is responsible for loading, writing, and manipulating schedules.
@@ -25,6 +22,25 @@ public class ScheduleManager {
 	 * Creates a new instance of ScheduleManager.
 	 */
 	public ScheduleManager() {
+	}
+
+	/**
+	 * Initializes the validity period using the specified properties file path.
+	 *
+	 * @param propertiesFilePath the path of the properties file containing the validity period information
+	 * @return a ValidityPeriod object initialized with the start and end dates read from the properties file
+	 * @throws IOException if an I/O error occurs while reading the properties file
+	 */
+	public ValidityPeriod initializeValidityPeriod(String propertiesFilePath) throws IOException {
+		Properties prop = new Properties();
+		try (InputStream input = new FileInputStream(propertiesFilePath)) {
+
+			prop.load(input);
+			LocalDate start = LocalDate.parse(prop.getProperty("validity-period.start"));
+			LocalDate end = LocalDate.parse(prop.getProperty("validity-period.end"));
+
+			return new ValidityPeriod(start, end);
+		}
 	}
 
 	/**

@@ -14,12 +14,23 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 // TODO: Load exceptions
 // TODO: Add sorting functionalities
 
 /**
  * This class represents a schedule of lectures.
+ * Expected usage:
+ * <pre>
+ *     Schedule schedule = new Schedule();
+ *     schedule.initializeValidityPeriod("path/to/validity/period.properties");
+ *     schedule.loadClassroomAmenities("path/to/classroom/amenities.json");
+ *     schedule.loadSchedule("path/to/schedule.csv", "path/to/config.json");
+ * </pre>
+ *
+ *
+ * }
  */
 public class Schedule {
 
@@ -88,6 +99,18 @@ public class Schedule {
 	}
 
 	/**
+	 * Initializes the validity period for classroom reservations from an external file
+	 *
+	 * @param path The path for the validity period .properties file, this file should be configured as following:
+	 *             validity-period.start=2021-03-01
+	 *             validity-period.end=2021-06-30
+	 * @throws IOException If an I/O error occurs during the data loading process.
+	 */
+	public void initializeValidityPeriod(String path) throws Exception {
+		validityPeriod = manager.initializeValidityPeriod(path);
+	}
+
+	/**
 	 * Exports the current schedule to a given path.
 	 *
 	 * @param path The path where the schedule should be written.
@@ -96,6 +119,17 @@ public class Schedule {
 	public void exportSchedule(String path) throws Exception {
 		manager.writeSchedule(lectures, path);
 	}
+
+	/**
+	 * Exports the filtered schedule to a given path.
+	 *
+	 * @param path The path where the filtered schedule should be written.
+	 * @throws Exception If an error occurs while writing the schedule.
+	 */
+	public void exportFilteredSchedule(String path) throws Exception {
+		manager.writeSchedule(filtered(), path);
+	}
+
 
 	/**
 	 * Adds a filter to the list of filters.
@@ -121,6 +155,17 @@ public class Schedule {
 	 */
 	public void clearFilters() {
 		filters.clear();
+	}
+
+	/**
+	 * Returns a string representing all the filter names in the collection.
+	 * Each filter name is separated by a newline character.
+	 * @return a string representing all the filter names
+	 */
+	public String getFiltersString() {
+		return filters.stream()
+				.map(Filter::getName)
+				.collect(Collectors.joining("\n"));
 	}
 
 	/**
@@ -213,8 +258,8 @@ public class Schedule {
 		}
 		// Remove the old lecture and add the updated lecture
 		if (removeLecture(lecture)) {
-			lecture.withTimes(start, end);
-			return addLecture(lecture);
+			Lecture updatedLecture = lecture.withTimes(start, end);
+			return addLecture(updatedLecture);
 		}
 		return false;
 	}

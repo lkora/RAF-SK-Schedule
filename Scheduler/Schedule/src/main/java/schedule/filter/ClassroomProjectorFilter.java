@@ -11,4 +11,9 @@ public record ClassroomProjectorFilter(String requirement) implements Filter {
 	public boolean test(Lecture lecture) {
 		return lecture.getClassroom().hasProjector() == Boolean.parseBoolean(requirement);
 	}
+
+	@Override
+	public String getName() {
+		return "classroom_projector_" + requirement;
+	}
 }

@@ -10,4 +10,9 @@ public record ClassroomComputerFilter(Integer requirement) implements Filter {
 	public boolean test(Lecture lecture) {
 		return lecture.getClassroom().getNoComputers() >= requirement;
 	}
+
+	@Override
+	public String getName() {
+		return "classroom_computer_" + requirement;
+	}
 }

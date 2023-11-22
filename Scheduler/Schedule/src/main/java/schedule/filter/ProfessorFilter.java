@@ -14,4 +14,8 @@ public record ProfessorFilter(String requirement) implements Filter {
 	public boolean test(Lecture lecture) {
 		return lecture.getProfessor().toLowerCase().contains(requirement.toLowerCase());
 	}
+	@Override
+	public String getName() {
+		return "professor_" + requirement;
+	}
 }

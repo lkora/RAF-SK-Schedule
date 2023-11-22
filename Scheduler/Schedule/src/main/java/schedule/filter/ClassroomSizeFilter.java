@@ -11,4 +11,9 @@ public record ClassroomSizeFilter(Integer requirement) implements Filter {
 	public boolean test(Lecture lecture) {
 		return lecture.getClassroom().getNoSpaces() >= requirement;
 	}
+
+	@Override
+	public String getName() {
+		return "classroom_size_" + requirement;
+	}
 }

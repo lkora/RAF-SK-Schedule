@@ -43,7 +43,7 @@ public class ScheduleManagerJSON implements ScheduleManagerService {
     }
 
     @Override
-    public List<Lecture> loadData(String path, String configPath) throws IOException {
+    public List<Lecture> loadData(String path, String ignored) throws IOException {
         File file = new File(path);
         if (!file.exists()) {
             if (file.createNewFile()) {

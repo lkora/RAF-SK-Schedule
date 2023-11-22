@@ -11,4 +11,9 @@ public record GroupFilter(String requirement)  implements Filter {
 	public boolean test(Lecture lecture) {
 		return lecture.getGroups().contains(requirement);
 	}
+
+	@Override
+	public String getName() {
+		return "group_" + requirement;
+	}
 }
