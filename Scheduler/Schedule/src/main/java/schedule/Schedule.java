@@ -8,8 +8,6 @@ import schedule.manager.ScheduleManager;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.BiPredicate;
-import java.util.function.Predicate;
 
 // TODO: Load exceptions
 // TODO: Add sorting functionalities
@@ -78,18 +76,26 @@ public class Schedule {
 	}
 
 	/**
-	 * @param filter The filter to add.
+	 * Adds a filter to the list of filters.
+	 *
+	 * @param filter The filter to be added.
 	 */
 	public void addFilter(Filter filter) {
 		filters.add(filter);
 	}
 
+
 	/**
+	 * Removes a filter from the list of filters.
+	 *
 	 * @param filter The filter to remove.
 	 */
 	public void removeFilter(Filter filter) {
 		filters.remove(filter);
 	}
+	/**
+	 * Removes all filters from the collection.
+	 */
 	public void clearFilters() {
 		filters.clear();
 	}

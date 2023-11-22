@@ -53,7 +53,11 @@ public class Lecture {
     private Classroom classroom;
 
     /**
-     * Wither method for the 'start' and 'end' fields.
+     * Returns a new Lecture object with the start and end times updated.
+     *
+     * @param start the new start time for the Lecture
+     * @param end the new end time for the Lecture
+     * @return a new Lecture object with updated start and end times
      */
     public Lecture withTimes(LocalTime start, LocalTime end) {
         return new Lecture(

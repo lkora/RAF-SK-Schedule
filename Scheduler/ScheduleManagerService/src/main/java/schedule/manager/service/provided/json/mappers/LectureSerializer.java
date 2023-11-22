@@ -7,6 +7,10 @@ import schedule.lecture.Lecture;
 
 import java.io.IOException;
 
+/**
+ * This class is responsible for serializing Lecture objects into JSON format.
+ * It extends the JsonSerializer class and overrides the serialize method.
+ */
 public class LectureSerializer extends JsonSerializer<Lecture> {
     @Override
     public void serialize(Lecture lecture, JsonGenerator JsonGen, SerializerProvider provider) throws IOException {

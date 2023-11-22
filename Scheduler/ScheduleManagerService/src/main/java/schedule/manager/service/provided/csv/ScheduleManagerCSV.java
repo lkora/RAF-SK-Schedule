@@ -16,9 +16,15 @@ import schedule.manager.service.provided.csv.mappers.TimePeriodMapper;
 import java.io.*;
 import java.util.*;
 
-@SuppressWarnings("DuplicatedCode")
+/**
+ * The ScheduleManagerCSV class is responsible for loading and exporting lecture data from/to CSV files.
+ * It implements the ScheduleManagerService interface.
+ */
 public class ScheduleManagerCSV implements ScheduleManagerService {
 
+	/**
+	 * Creates a new instance of ScheduleManagerCSV.
+	 */
 	public ScheduleManagerCSV() {
 	}
 
@@ -40,11 +46,27 @@ public class ScheduleManagerCSV implements ScheduleManagerService {
 		return mappings;
 	}
 
+	/**
+	 * Loads lecture data from a CSV file using the provided file path and configuration path.
+	 *
+	 * @param filePath    The file path to the CSV file containing lecture data.
+	 * @param configPath  The file path to the configuration file.
+	 * @return A list of Lecture objects representing the loaded lecture data.
+	 * @throws IOException If an error occurs while reading the files.
+	 */
 	@Override
 	public List<Lecture> loadData(String filePath, String configPath) throws IOException {
 		return loadLecturesFromCSV(filePath, configPath);
 	}
 
+	/**
+	 * Exports lecture data to a CSV file using the provided list of Lecture objects and file path.
+	 *
+	 * @param lectures    The list of Lecture objects representing the lecture data to be exported.
+	 * @param path        The file path to export the data to.
+	 * @return True if the data was successfully exported, false otherwise.
+	 * @throws IOException If an error occurs while writing the data to the file.
+	 */
 	@Override
 	public boolean exportData(List<Lecture> lectures, String path) throws IOException {
 		return writeDataToCSV(lectures, path);
@@ -73,7 +95,7 @@ public class ScheduleManagerCSV implements ScheduleManagerService {
 		return lectures;
 	}
 
-	private Lecture mapColumnValue(Lecture lecture, ConfigMapping entry, CSVRecord record, Map<Integer, String> mappings) {
+	private void mapColumnValue(Lecture lecture, ConfigMapping entry, CSVRecord record, Map<Integer, String> mappings) {
 		int columnIndex = entry.getIndex();
 
 		switch (mappings.get(columnIndex)) {
@@ -101,23 +123,35 @@ public class ScheduleManagerCSV implements ScheduleManagerService {
 			}
 			case "classroom" -> lecture.setClassroom(Classroom.forName(record.get(columnIndex)).orElse(null));
 		}
-
-		return lecture;
 	}
 
 	private boolean writeDataToCSV(List<Lecture> lectures, String path) throws IOException {
-		FileWriter fileWriter = new FileWriter(path);
-		CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.Builder.create().setHeader("name", "type", "professor", "groups", "day", "timeRange", "classroom").build());
+		try (FileWriter fileWriter = new FileWriter(path);
+		     CSVPrinter csvPrinter = new CSVPrinter(fileWriter, createCSVFormat())) {
 
-		for (Lecture lecture : lectures) {
-			String timeRange = TimePeriodMapper.formatTimeRange(new TimePeriodMapper.TimeRange(lecture.getStart(), lecture.getEnd()));
-			csvPrinter.printRecord(lecture.getSubject(), LectureTypeMapper.lectureTypeToString(lecture.getType()), lecture.getProfessor(), String.join(", ", lecture.getGroups()), DayMapper.mapToAbbreviation(lecture.getDay()), timeRange, lecture.getClassroom().getName());
+			for (Lecture lecture : lectures) {
+				csvPrinter.printRecord(formatLecture(lecture));
+			}
+
 		}
-
-		csvPrinter.close();
-		fileWriter.close();
-
 		return true;
 	}
 
+	private CSVFormat createCSVFormat() {
+		return CSVFormat.Builder.create()
+				.setHeader("name", "type", "professor", "groups", "day", "timeRange", "classroom").build();
+	}
+
+	private List<String> formatLecture(Lecture lecture) {
+		String timeRange = TimePeriodMapper.formatTimeRange(new TimePeriodMapper.TimeRange(lecture.getStart(), lecture.getEnd()));
+		return Arrays.asList(
+				lecture.getSubject(),
+				LectureTypeMapper.lectureTypeToString(lecture.getType()),
+				lecture.getProfessor(),
+				String.join(", ", lecture.getGroups()),
+				DayMapper.mapToAbbreviation(lecture.getDay()),
+				timeRange,
+				lecture.getClassroom().getName()
+		);
+	}
 }

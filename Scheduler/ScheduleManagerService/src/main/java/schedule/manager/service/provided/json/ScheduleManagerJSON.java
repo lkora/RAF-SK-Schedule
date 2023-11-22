@@ -17,11 +17,19 @@ import java.io.IOException;
 import java.util.List;
 
 
-@SuppressWarnings("DuplicatedCode")
+/**
+ * Implementation of the ScheduleManagerService interface that uses JSON as the data format for loading
+ * and exporting lecture data.
+ */
 public class ScheduleManagerJSON implements ScheduleManagerService {
 
     private final ObjectMapper objectMapper;
 
+    /**
+     * This method is the constructor for the ScheduleManagerJSON class. It initializes the ScheduleManagerJSON object.
+     * It sets up the ObjectMapper and configures it with deserializers and serializers for Lecture and Classroom objects.
+     * It also enables indentation of the JSON output.
+     */
     public ScheduleManagerJSON() {
         objectMapper = new ObjectMapper();
 

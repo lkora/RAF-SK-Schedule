@@ -2,6 +2,10 @@ package schedule.manager.service.provided.csv.mappers;
 
 import schedule.lecture.type.LectureType;
 
+/**
+ * The LectureTypeMapper class provides methods to map between string representation of a lecture type
+ * and corresponding LectureType enum value, and vice versa.
+ */
 public class LectureTypeMapper {
 
     /**

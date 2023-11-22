@@ -15,8 +15,14 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The ScheduleManager class is responsible for loading, writing, and manipulating schedules.
+ */
 public class ScheduleManager {
 
+    /**
+     * Creates a new instance of ScheduleManager.
+     */
     public ScheduleManager() {
     }
 
