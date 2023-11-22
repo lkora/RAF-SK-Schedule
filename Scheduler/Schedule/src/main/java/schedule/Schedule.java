@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
  * <p>
  * <p>
  * }
+ *
  */
 public class Schedule {
 
@@ -237,7 +238,7 @@ public class Schedule {
 	public boolean addLecture(Lecture lecture) {
 		Objects.requireNonNull(lecture, "Lecture cannot be null");
 
-		if (!hasFreeSpot(lecture.getValidityPeriod(), lecture.getClassroom())) {
+		if (!hasFreeSpot(lecture)) {
 			return false;
 		}
 
@@ -282,8 +283,16 @@ public class Schedule {
 		return false;
 	}
 
-	private boolean hasFreeSpot(ValidityPeriod validityPeriod, Classroom classroom) {
-		return lectures.stream().filter(lecture -> lecture.getClassroom().equals(classroom)).noneMatch(lecture -> lecture.getValidityPeriod().overlaps(validityPeriod));
+	private boolean hasFreeSpot(Lecture lecture) {
+		List<Lecture> list = lectures.stream().filter(sample ->
+
+				sample.getValidityPeriod().overlaps(lecture.getValidityPeriod()) &&
+						sample.getClassroom().equals(lecture.getClassroom()) &&
+						sample.getDay().equals(lecture.getDay()) &&
+						(lecture.getStart().isBefore(sample.getEnd()) && sample.getStart().isBefore(lecture.getEnd()))
+		).toList();
+		System.err.println(list + " " + list.size());
+		return list.isEmpty();
 	}
 
 	/**

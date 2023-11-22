@@ -76,6 +76,8 @@ public interface Filter extends Predicate<Lecture> {
 	 */
 	@Override
 	default Filter and(Predicate<? super Lecture> other) {
+		if (!(other instanceof Filter))
+			return (t) -> false;
 		Objects.requireNonNull(other);
 		return (t) -> test(t) && other.test(t);
 	}

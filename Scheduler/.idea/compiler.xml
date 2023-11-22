@@ -7,11 +7,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="ScheduleManagerCollection" />
+        <module name="ScheduleManager" />
         <module name="ScheduleManagerWeekly" />
         <module name="Lecture" />
-        <module name="ScheduleImporterSpec" />
+        <module name="ScheduleManagerService" />
         <module name="Schedule" />
+        <module name="ScheduleManagerCollection" />
+        <module name="ScheduleImporterSpec" />
         <module name="ScheduleExporterSpec" />
       </profile>
     </annotationProcessing>

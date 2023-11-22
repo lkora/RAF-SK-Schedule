@@ -5,6 +5,7 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
 import schedule.classroom.Classroom;
+import schedule.common.ValidityPeriod;
 import schedule.lecture.Lecture;
 import schedule.lecture.type.LectureType;
 import schedule.manager.service.ScheduleManagerService;
@@ -14,6 +15,7 @@ import schedule.manager.service.provided.csv.mappers.LectureTypeMapper;
 import schedule.manager.service.provided.csv.mappers.TimePeriodMapper;
 
 import java.io.*;
+import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -89,6 +91,7 @@ public class ScheduleManagerCSV implements ScheduleManagerService {
 			for (ConfigMapping entry : columnMappings) {
 				mapColumnValue(lecture, entry, record, mappings);
 			}
+			lecture.setValidityPeriod(new ValidityPeriod(LocalDate.MIN, LocalDate.MAX));
 			lectures.add(lecture);
 		}
 

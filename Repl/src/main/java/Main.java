@@ -1,6 +1,7 @@
 import schedule.Schedule;
 import schedule.filter.Filter;
 import schedule.manager.collection.ScheduleManagerCollection;
+import schedule.manager.weekly.ScheduleManagerWeekly;
 
 import java.util.Arrays;
 import java.util.Optional;

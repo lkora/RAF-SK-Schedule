@@ -31,6 +31,6 @@ public record ValidityPeriod(LocalDate validFrom, LocalDate validTo) {
 	 * @return true if the current validity period overlaps with the other validity period, false otherwise.
 	 */
 	public boolean overlaps(ValidityPeriod other) {
-		return (this.validFrom.isBefore(other.validTo) && this.validTo.isAfter(other.validFrom));
+		return this.validFrom.isBefore(other.validTo) && this.validTo.isAfter(other.validFrom);
 	}
 }

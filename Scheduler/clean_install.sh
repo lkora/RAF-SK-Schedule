@@ -1,7 +1,7 @@
 #!/bin/bash
 # Remember the root directory
 root_directory=$(pwd)
-command_to_run='mvn clean install'
+command_to_run='mvn clean install -U -Dmaven.test.skip=true'
 
 # Building list of modules
 declare -a modules=("Lecture" "ScheduleManagerService/ScheduleImporterSpec" "ScheduleManagerService/ScheduleExporterSpec" "ScheduleManagerService" "ScheduleManager" "ScheduleManager/ScheduleManagerCollection" "ScheduleManager/ScheduleManagerWeekly" "Schedule")
